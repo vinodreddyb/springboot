@@ -6,9 +6,9 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/template/layout.xhtml">
 	<ui:define name="content">
-		<p:tabView
+		<p:tabView id="tabMain"
 			style="width:98%; margin:0 auto;min-height: 98%;height: auto;">
-			<p:tab title="Data">
+			<p:tab title="Data" id="tabData">
 				<ui:include src="entry/entry.xhtml"/>
 			</p:tab>
 			<p:tab title="search">

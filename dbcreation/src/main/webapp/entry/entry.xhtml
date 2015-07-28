@@ -8,55 +8,59 @@
 	<!-- This can be located either in the facelet or in external js file-->
 	<script>
 	   
-		function show() {
+		function showPO() {
 			if(PF('serviceType').getSelectedValue() == "PAID") {
 				 PF('txtPoNum').jq.removeAttr("disabled");
 				 PF('txtPoNum').jq.attr("class","ui-inputfield ui-inputtext ui-widget " +
 						 "ui-state-default ui-corner-all inputTextWidth");
-				 PF('txtPoDate').jq.removeAttr("disabled");
-				 PF('txtPoDate').jq.attr("class","ui-inputfield ui-inputtext ui-widget " +
-						 "ui-state-default ui-corner-all inputTextWidth");
+				 $("[id='tabMain:frmData:calPoDate_input']").removeAttr("disabled");
+				 $("[id='tabMain:frmData:calPoDate_input']").attr("aria-disabled", "false");
+				 $("[id='tabMain:frmData:calPoDate_input']").attr("class","ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker");
 			} else {
-				
-				 PF('txtPoNum').jq.attr("disabled", "true");;
-				 PF('txtPoNum').jq.attr("class","ui-inputfield ui-inputtext ui-widget "+
-						 "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
-				 PF('txtPoDate').jq.attr("disabled", "true");;
-				 PF('txtPoDate').jq.attr("class","ui-inputfield ui-inputtext ui-widget "+
-						 "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
-				 PF('txtPoNum').jq.val("");
-				 PF('txtPoDate').jq.val("");
+		        PF('txtPoNum').jq.attr("disabled", "true");
+				PF('txtPoNum').jq
+						.attr("class","ui-inputfield ui-inputtext ui-widget "
+										+ "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
+				PF('txtPoNum').jq.val("");
+
+				$("[id='tabMain:frmData:calPoDate_input']").attr("disabled","true");
+				$("[id='tabMain:frmData:calPoDate_input']").attr("class","ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+				$("[id='tabMain:frmData:calPoDate_input']").val("");
 			}
-			
+
 		}
+		$( document ).ready(function() {
+			$("[id='tabMain:frmData:calPoDate_input']").attr("disabled","true");
+			$("[id='tabMain:frmData:calPoDate_input']").attr("class","ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+		});
+		
 	</script>
 </h:head>
-<h:form>
+<h:form id="frmData">
 	<div style="width: 100%">
-		<p:panelGrid columns="4" style="width: 80%;border:none;margin: 0 auto">
+		<p:panelGrid id="pnlData" columns="4" style="width: 80%;border:none;margin: 0 auto">
 			<h:outputText value="Organisation Name" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth"></p:inputText>
 			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
-			<p:selectOneMenu id="console" style="width:225px" widgetVar="serviceType" onchange="show()">
+			<p:selectOneMenu id="console" style="width:225px" widgetVar="serviceType" onchange="showPO()">
 				<f:selectItem itemLabel="ECS" itemValue="ECS" />
 				<f:selectItem itemLabel="POC" itemValue="POC" />
 				<f:selectItem itemLabel="PAID" itemValue="PAID" />
-				
 			</p:selectOneMenu>
 			<p:outputLabel value="PO Number" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" widgetVar="txtPoNum" disabled="true" ></p:inputText>
 			<h:outputText value="PO Date" styleClass="inputTextWidth" />
-			<p:inputMask styleClass="inputTextWidth" widgetVar="txtPoDate" disabled="true" mask="99/99/9999"/>
+			<p:calendar size="48" id="calPoDate"  readonlyInput="true" pattern="dd/MM/yyyy"   />
 			<h:outputText value="Location" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth"></p:inputText>
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth"></p:inputText>
 			<h:outputText value="Start Date" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"></p:inputText>
+			<p:calendar id="calStartDate"  readonlyInput="true" pattern="dd/MM/yyyy" size="48"/>
 			<h:outputText value="End Date" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" />
+			<p:calendar id="calEndDate"  readonlyInput="true" pattern="dd/MM/yyyy" size="48" />
 			<h:outputText value="Shut Down date" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" />
+			<p:calendar id="calShutDate"  readonlyInput="true" pattern="dd/MM/yyyy" size="48" />
 			<h:outputText value="Vm Name" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" />
 			<h:outputText value="Vcpu" styleClass="inputTextWidth" />
