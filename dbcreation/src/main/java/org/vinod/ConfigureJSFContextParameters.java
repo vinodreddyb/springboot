@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("dev")
 public class ConfigureJSFContextParameters implements ServletContextInitializer {
 
     @Override
@@ -25,6 +24,7 @@ public class ConfigureJSFContextParameters implements ServletContextInitializer 
         servletContext.setInitParameter(
                 "javax.faces.FACELETS_REFRESH_PERIOD", "1");
         servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
+        servletContext.setInitParameter("primefaces.THEME", "bluesky");
 
     }
 }

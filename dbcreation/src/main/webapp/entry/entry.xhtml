@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<!-- This can be located either in the facelet or in external js file-->
+	<script>
+	   
+		function show() {
+			if(PF('serviceType').getSelectedValue() == "PAID") {
+				 PF('txtPoNum').jq.removeAttr("disabled");
+				 PF('txtPoNum').jq.attr("class","ui-inputfield ui-inputtext ui-widget " +
+						 "ui-state-default ui-corner-all inputTextWidth");
+				 PF('txtPoDate').jq.removeAttr("disabled");
+				 PF('txtPoDate').jq.attr("class","ui-inputfield ui-inputtext ui-widget " +
+						 "ui-state-default ui-corner-all inputTextWidth");
+			} else {
+				
+				 PF('txtPoNum').jq.attr("disabled", "true");;
+				 PF('txtPoNum').jq.attr("class","ui-inputfield ui-inputtext ui-widget "+
+						 "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
+				 PF('txtPoDate').jq.attr("disabled", "true");;
+				 PF('txtPoDate').jq.attr("class","ui-inputfield ui-inputtext ui-widget "+
+						 "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
+				 PF('txtPoNum').jq.val("");
+				 PF('txtPoDate').jq.val("");
+			}
+			
+		}
+	</script>
+</h:head>
+<h:form>
+	<div style="width: 100%">
+		<p:panelGrid columns="4" style="width: 80%;border:none;margin: 0 auto">
+			<h:outputText value="Organisation Name" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth"></p:inputText>
+			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
+			<p:selectOneMenu id="console" style="width:225px" widgetVar="serviceType" onchange="show()">
+				<f:selectItem itemLabel="ECS" itemValue="ECS" />
+				<f:selectItem itemLabel="POC" itemValue="POC" />
+				<f:selectItem itemLabel="PAID" itemValue="PAID" />
+				
+			</p:selectOneMenu>
+			<p:outputLabel value="PO Number" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" widgetVar="txtPoNum" disabled="true" ></p:inputText>
+			<h:outputText value="PO Date" styleClass="inputTextWidth" />
+			<p:inputMask styleClass="inputTextWidth" widgetVar="txtPoDate" disabled="true" mask="99/99/9999"/>
+			<h:outputText value="Location" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth"></p:inputText>
+			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth"></p:inputText>
+			<h:outputText value="Start Date" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth"></p:inputText>
+			<h:outputText value="End Date" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Shut Down date" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Vm Name" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Vcpu" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Vram" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="VHdd" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Private Ip" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Public IP" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Contact Name" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Mobile No" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+			<h:outputText value="Email" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth" />
+
+		</p:panelGrid>
+
+		<p:panelGrid columns="2"
+			style="width: 15%; margin:0 auto; margin-top: 20px">
+			<p:commandButton value="Submit" />
+			<p:commandButton value="Cancel" />
+
+		</p:panelGrid>
+	</div>
+</h:form>
+
+</html>
