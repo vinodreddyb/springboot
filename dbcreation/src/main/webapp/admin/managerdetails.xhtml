@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form>
+		<p:fieldset legend="Manager Details">
+			<p:panelGrid columns="7"
+				style="width: 50%;">
+				<h:outputText value="Name" styleClass="inputTextWidth" />
+				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				
+				<h:outputText value="Mobile" styleClass="inputTextWidth" />
+				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				<h:outputText value="Email" styleClass="inputTextWidth" />
+				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				<p:panel style="border:none;width:230px">
+					<p:commandButton value="Submit"/>
+					<p:commandButton value="Reset"/>
+					<p:commandButton value="View All"/>
+				</p:panel>
+			</p:panelGrid>
+			
+		</p:fieldset>
+		<!-- <p:fieldset legend="Login Details" style="margin-top:20px">
+			<p:panelGrid columns="2"
+				style="margin-left:auto;margin-right:auto;width: 80%;">
+				<h:outputText value="User name" styleClass="inputTextWidth" />
+				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				<h:outputText value="Password" styleClass="inputTextWidth" />
+				<h:inputSecret
+					styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-state-hover inputTextWidth"></h:inputSecret>
+				<h:outputText value="Retype password" />
+				<h:inputSecret
+					styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-state-hover inputTextWidth">
+				</h:inputSecret>
+			</p:panelGrid>
+		</p:fieldset> -->
+	</h:form>
+</ui:composition>
+
