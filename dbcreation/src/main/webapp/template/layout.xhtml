@@ -5,8 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<h:outputStylesheet name="/css/app.css" library="css" />
-<style type="text/css">
+	<h:outputStylesheet name="/css/app.css" library="css" />
+	<style type="text/css">
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
@@ -25,16 +25,17 @@ body {
 	color: #8E969D;
 }
 
-.ui-panelgrid td, .ui-panelgrid tr
-{
-    border-style: none !important;
+.ui-panelgrid td, .ui-panelgrid tr {
+	border-style: none !important;
 	background: none;
 	width: 100px;
 }
+
 .inputTextWidth {
-  width: 200px;
+	width: 200px;
 }
-.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
 	padding: 0.0em;
 }
 </style>
@@ -42,22 +43,22 @@ body {
 
 <h:body bgcolor="#ffffff">
 
-<p:layout fullPage="true">
+	<p:layout fullPage="true">
+		
+		<p:layoutUnit position="north" style="border:none">
+			<h:graphicImage value="/images/Nxtgen.jpg" style="height:100px" />
+		</p:layoutUnit>
 
-    <p:layoutUnit position="north"  style="border:none">
-        <h:graphicImage value="/images/Nxtgen.jpg"  style="height:100px" />
-    </p:layoutUnit>
-    
-   <!--  <p:layoutUnit position="west" header="menu" size="200">
+		<!--  <p:layoutUnit position="west" header="menu" size="200">
     	<ui:insert name="menu"/>
     </p:layoutUnit> -->
-    <p:layoutUnit position="center" style="border:none" size="80%">
-   
-    	<ui:insert name="content" />
-    </p:layoutUnit>
+		<p:layoutUnit position="center" style="border:none" size="80%">
 
-</p:layout>
-	
+			<ui:insert name="content" />
+		</p:layoutUnit>
+
+	</p:layout>
+
 </h:body>
 
 </html>

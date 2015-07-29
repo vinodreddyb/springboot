@@ -3,39 +3,37 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+	
 	<h:form>
 		<p:fieldset legend="Manager Details">
-			<p:panelGrid columns="7"
-				style="width: 50%;">
+			<p:panelGrid columns="7" style="width: 50%;" id="pnlManager">
 				<h:outputText value="Name" styleClass="inputTextWidth" />
-				<p:inputText styleClass="inputTextWidth"></p:inputText>
-				
+				<p:inputText styleClass="inputTextWidth"
+					value="#{managerBean.manager.name}" />
+
 				<h:outputText value="Mobile" styleClass="inputTextWidth" />
-				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				<p:inputText styleClass="inputTextWidth"
+					value="#{managerBean.manager.mobile}" />
 				<h:outputText value="Email" styleClass="inputTextWidth" />
-				<p:inputText styleClass="inputTextWidth"></p:inputText>
+				<p:inputText styleClass="inputTextWidth" tabindex="3"
+					requiredMessage="Please enter your email address."
+					value="#{managerBean.manager.email}"
+					validatorMessage="Invalid email format">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
 				<p:panel style="border:none;width:230px">
-					<p:commandButton value="Submit"/>
-					<p:commandButton value="Reset"/>
-					<p:commandButton value="View All"/>
+					<p:commandButton value="Submit" id="btnSaveManager"
+						onstart="PF('dlgShow').show()" update="@form:pnlManager"
+						oncomplete="PF('dlgShow').hide()"
+						action="#{managerBean.saveManager}" />
+					<p:commandButton value="Reset" />
+					<p:commandButton value="View All" />
 				</p:panel>
 			</p:panelGrid>
-			
+
 		</p:fieldset>
-		<!-- <p:fieldset legend="Login Details" style="margin-top:20px">
-			<p:panelGrid columns="2"
-				style="margin-left:auto;margin-right:auto;width: 80%;">
-				<h:outputText value="User name" styleClass="inputTextWidth" />
-				<p:inputText styleClass="inputTextWidth"></p:inputText>
-				<h:outputText value="Password" styleClass="inputTextWidth" />
-				<h:inputSecret
-					styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-state-hover inputTextWidth"></h:inputSecret>
-				<h:outputText value="Retype password" />
-				<h:inputSecret
-					styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-state-hover inputTextWidth">
-				</h:inputSecret>
-			</p:panelGrid>
-		</p:fieldset> -->
-	</h:form>
+	
+</h:form>
 </ui:composition>
 
