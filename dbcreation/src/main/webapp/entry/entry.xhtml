@@ -74,7 +74,7 @@
 					<f:selectItem itemLabel="HDDC" itemValue="HDDC" />
 				</p:selectOneMenu>
 				<p:selectOneRadio id="serviceType" style="width:120px;float:left" widgetVar="payType"
-						onchange="showPO(this.value)" tabindex="12">
+						onchange="showPO(this.value)" tabindex="12" value="#{entryBean.entry.payService}">
 					<f:selectItem itemLabel="POC" itemValue="POC"  />
 					<f:selectItem itemLabel="PAID" itemValue="PAID" />
 					
@@ -99,13 +99,14 @@
 			<h:outputText value="PO Date" styleClass="inputTextWidth" />
 			<p:calendar size="37" id="calPoDate" readonlyInput="true"
 				pattern="dd/MM/yyyy" tabindex="14"/>
-			<h:outputText value="Mobile No" styleClass="inputTextWidth"  />
+			<h:outputText value="Contact No" styleClass="inputTextWidth"  />
 			<p:inputText styleClass="inputTextWidth" tabindex="4"/>
 			
 			
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
-			<p:selectOneMenu id="accountManager" style="width:100px;float:left"
+			<p:selectOneMenu id="accountManager" style="width:210px;float:left"
 					widgetVar="accountManager"  tabindex="15">
+				<f:selectItem itemLabel="" itemValue="" />
 				<f:selectItems var="manager" itemLabel="#{manager.name}" itemValue="#{manager.id}" value="#{entryBean.listManagers}"/>		
 			</p:selectOneMenu>
 			
@@ -140,11 +141,16 @@
 			<h:outputText value="Private Ip" styleClass="inputTextWidth" />
 			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="9"/>
 			
-			<h:outputText value="Remarks" styleClass="inputTextWidth" />
-			<p:inputTextarea styleClass="inputTextWidth" tabindex="20"/>
+			<h:outputText value="Os Version" styleClass="inputTextWidth" />
+			<p:inputText styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="10"/>
 			
 			<h:outputText value="Public IP" styleClass="inputTextWidth" />
 			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="10"/>
+			
+			<h:outputText value="Remarks" styleClass="inputTextWidth" />
+			<p:inputTextarea styleClass="inputTextWidth" tabindex="20"/>
+			
+			
 			
 			
 			

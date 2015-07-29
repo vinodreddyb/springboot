@@ -21,7 +21,6 @@ public class ManagerServiceImpl implements ManagerService {
 		dto.setName(manager.getName());
 		dto.setMobile(manager.getMobile());
 		dto.setEmail(manager.getEmail());
-		
 		managerDao.save(dto);
 	}
 	
@@ -34,6 +33,7 @@ public class ManagerServiceImpl implements ManagerService {
 			manager.setName(managerDB.getName());
 			manager.setEmail(managerDB.getEmail());
 			manager.setMobile(managerDB.getMobile());
+			manager.setLocation(managerDB.getLocation());
 			managers.add(manager);
 		}
 		

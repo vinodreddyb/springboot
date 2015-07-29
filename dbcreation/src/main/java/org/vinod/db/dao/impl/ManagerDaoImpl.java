@@ -26,12 +26,13 @@ public class ManagerDaoImpl implements ManagerDao {
 		try {
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-					String sql = "INSERT INTO tbl_managers(name, mobile, email) VALUES (?, ?, ?)";
+					String sql = "INSERT INTO tbl_managers(name, mobile, email, location, isActive) VALUES (?, ?, ?, ?, ?)";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setString(1, managerDTO.getName());
 					ps.setString(2, managerDTO.getMobile());
 					ps.setString(3, managerDTO.getEmail());
-					
+					ps.setString(4, managerDTO.getLocation());
+					ps.setInt(5, 1);
 					return ps;
 				}
 			});
@@ -43,7 +44,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	public List<ManagerDTO> getAllManagers() throws Exception {
 		List<ManagerDTO> managers = new ArrayList<>();
 		try {
-			String sql = "SELECT id, name, mobile, email from tbl_managers";
+			String sql = "SELECT id, name, mobile, email, location from tbl_managers where isActive = 1";
 			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 			for (Map<String, Object> row : rows) {
 				ManagerDTO manager = new ManagerDTO();
@@ -51,6 +52,7 @@ public class ManagerDaoImpl implements ManagerDao {
 				manager.setName((String) row.get("name"));
 				manager.setEmail((String) row.get("email"));
 				manager.setMobile((String) row.get("mobile"));
+				manager.setLocation((String) row.get("location"));
 				managers.add(manager);
 			}
 		} catch (Exception e) {

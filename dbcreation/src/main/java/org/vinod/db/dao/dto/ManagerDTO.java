@@ -9,6 +9,7 @@ public class ManagerDTO implements Serializable{
 	private String name;
 	private String mobile;
 	private String email;
+	private String location;
 	public String getName() {
 		return name;
 	}
@@ -32,6 +33,12 @@ public class ManagerDTO implements Serializable{
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	

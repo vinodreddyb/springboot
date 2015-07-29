@@ -1,0 +1,12 @@
+ALTER TABLE `nmsdb`.`tbl_managers` 
+CHANGE COLUMN `mobile` `mobile` VARCHAR(45) NOT NULL ,
+ADD COLUMN `location` VARCHAR(45) NULL AFTER `email`,
+DROP INDEX `index1` ,
+ADD INDEX `index1` (`name` ASC, `mobile` ASC, `email` ASC, `location` ASC);
+
+
+ALTER TABLE `nmsdb`.`tbl_managers` 
+ADD COLUMN `isActive` BIT NOT NULL AFTER `location`,
+DROP INDEX `index1` ,
+ADD INDEX `index1` (`name` ASC, `mobile` ASC, `email` ASC, `location` ASC, `isActive` ASC);
+

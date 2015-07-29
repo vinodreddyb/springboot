@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.vinod.jsf.bean.vo.Entry;
 import org.vinod.jsf.bean.vo.Manager;
 import org.vinod.jsf.service.ManagerService;
 
@@ -21,7 +22,7 @@ public class EntryBean {
 
 	private List<Manager> listManagers = null;
 	
-	
+	private Entry entry = new Entry();
 	
 	public void onTabChange(TabChangeEvent event) {
 		
@@ -48,5 +49,13 @@ public class EntryBean {
 
 	public void setListManagers(List<Manager> listManagers) {
 		this.listManagers = listManagers;
+	}
+
+	public Entry getEntry() {
+		return entry;
+	}
+
+	public void setEntry(Entry entry) {
+		this.entry = entry;
 	}
 }
