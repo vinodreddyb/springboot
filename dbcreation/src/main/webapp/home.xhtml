@@ -2,25 +2,28 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-    template="/template/layout.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
 	<ui:define name="content">
-		<p:tabView id="tabMain"
-			style="width:98%; margin:0 auto;min-height: 98%;height: auto;">
-			<p:tab title="Data" id="tabData">
-				<ui:include src="entry/entry.xhtml"/>
-			</p:tab>
+		
+			<p:tabView id="tabMain" dynamic="true"
+			style="width:98%; margin:0 auto;min-height: 98%;height: auto;"  >
+			 <p:ajax event="tabChange" partialSubmit="true" listener="#{entryBean.onTabChange}" update="tabMain:frmData:pnlData" />
+			 <p:tab title="Data" id="tabData">
+				<ui:include src="entry/entry.xhtml" />
+			 </p:tab>
+			
 			<p:tab title="search">
 
 			</p:tab>
 			<p:tab title="Admin">
-				<ui:include src="admin/managerdetails.xhtml"/>
+				<ui:include src="admin/managerdetails.xhtml" />
 			</p:tab>
 		</p:tabView>
-		<p:dialog header="Progress" widgetVar="dlgShow" modal="true" showEffect="explode" hideEffect="bounce" 
-			height="100" width="200" appendTo="@(body)" closable="false">
+		<p:dialog header="Progress" widgetVar="dlgShow" modal="true"
+			showEffect="explode" hideEffect="bounce" height="100" width="200"
+			appendTo="@(body)" closable="false">
 			<p:graphicImage value="images/ajax-loader.gif" />
 		</p:dialog>
 	</ui:define>
-	
+
 </ui:composition>

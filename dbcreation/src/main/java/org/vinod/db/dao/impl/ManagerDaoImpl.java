@@ -3,8 +3,12 @@ package org.vinod.db.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Repository;
@@ -17,7 +21,7 @@ public class ManagerDaoImpl implements ManagerDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public void save(final ManagerDTO managerDTO) throws Exception{
+	public void save(final ManagerDTO managerDTO) throws Exception {
 
 		try {
 			jdbcTemplate.update(new PreparedStatementCreator() {
@@ -33,6 +37,26 @@ public class ManagerDaoImpl implements ManagerDao {
 			});
 		} catch (Exception e) {
 			throw e;
+		} 
+	}
+	
+	public List<ManagerDTO> getAllManagers() throws Exception {
+		List<ManagerDTO> managers = new ArrayList<>();
+		try {
+			String sql = "SELECT id, name, mobile, email from tbl_managers";
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+			for (Map<String, Object> row : rows) {
+				ManagerDTO manager = new ManagerDTO();
+				manager.setId((Integer) row.get("id"));
+				manager.setName((String) row.get("name"));
+				manager.setEmail((String) row.get("email"));
+				manager.setMobile((String) row.get("mobile"));
+				managers.add(manager);
+			}
+		} catch (Exception e) {
+			throw e;
 		}
+		
+		return managers;
 	}
 }

@@ -49,10 +49,15 @@
 							$("[id='tabMain:frmData:calPoDate_input']")
 									.attr("class",
 											"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+							loadManagersData();
 						});
 	</script>
 </h:head>
 <h:form id="frmData">
+<p:remoteCommand id="rc" name="loadManagersData" process="@this"
+				actionListener="#{entryBean.loadAllManagers}" update="@form:pnlData" >
+				
+</p:remoteCommand>
 	<div style="width: 100%">
 		<p:panelGrid id="pnlData" columns="4"
 			style="width: 80%;border:none;margin: 0 auto">
@@ -99,7 +104,11 @@
 			
 			
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="15"></p:inputText>
+			<p:selectOneMenu id="accountManager" style="width:100px;float:left"
+					widgetVar="accountManager"  tabindex="15">
+				<f:selectItems var="manager" itemLabel="#{manager.name}" itemValue="#{manager.id}" value="#{entryBean.listManagers}"/>		
+			</p:selectOneMenu>
+			
 			
 			<h:outputText value="Location" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" tabindex="5"/>

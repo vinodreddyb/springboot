@@ -1,6 +1,7 @@
 package org.vinod.jsf.bean.vo;
 
 public class Manager {
+	private int id;
 	private String name;
 	private String mobile;
 	private String email;
@@ -21,6 +22,12 @@ public class Manager {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
