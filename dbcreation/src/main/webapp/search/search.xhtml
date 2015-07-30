@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+		<h:form id="frmSearch">
+			<p:growl id="growlSearch" showDetail="true"  />
+			<p:panel style="width: 40%; margin: 0 auto; border:none" id="pnlSearchText">
+				<p:inputText  style="width:400px; height: 20px;" required="true" requiredMessage="Please enter name"
+					tabindex="1" />
+				<p:commandButton value="Submit" id="btnSearch" style="margin-left:10px"
+					onstart="PF('dlgShow').show()" 
+					update="growlSearch"
+					oncomplete="PF('dlgShow').hide(),PF('pnlTblManagers').toggle()"
+					/>
+					
+			</p:panel>
+			
+			<p:outputPanel  style="width: 40%; margin: 0 auto;border:none" id="pnlSearchInput">
+				<p:selectOneRadio>
+					<f:selectItem itemLabel="Private IP"/>
+					<f:selectItem itemLabel="Public IP"/>
+					<f:selectItem itemLabel="VM"/>
+					<f:selectItem itemLabel="Customer"/>
+					<f:selectItem itemLabel="Manager"/>
+					</p:selectOneRadio>
+				</p:outputPanel>
+			
+			
+		</h:form>
+		
+
+
+</ui:composition>
+
