@@ -8,7 +8,7 @@
 	<p:fieldset legend="Manager Details" id="managerFields">
 		<h:form id="frmManagers">
 			<p:growl id="growlManager" showDetail="true"  />
-			<p:panelGrid columns="8" style="width: 100%;" id="pnlManager">
+			<p:panelGrid columns="8" style="width: 80%;0 auto;border:none" id="pnlManager">
 				<h:outputText value="Name" styleClass="inputTextWidth" />
 				<p:inputText styleClass="inputTextWidth" required="true" requiredMessage="Please enter name"
 					value="#{managerBean.manager.name}" tabindex="1" />
@@ -46,7 +46,7 @@
 		<p:growl id="growlManager" showDetail="true"  />
 			<p:panel  toggleable="true" widgetVar="pnlTblManagers" collapsed="true" header="Managers" 
 				toggleOrientation="horizontal" >
-				<p:ajax event="toggle" listener="#{managerBean.onToggle}" update="tabMain:frmManagers:pnlManager" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide()" />
+				<p:ajax event="toggle" listener="#{managerBean.onToggle}" update="tabMain:frmManagers:pnlManager,@form" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide()" />
 				<p:dataTable var="manager" value="#{managerBean.listManagers}" selectionMode="single"  rowKey="#{manager.id}"
 					rows="10" paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
