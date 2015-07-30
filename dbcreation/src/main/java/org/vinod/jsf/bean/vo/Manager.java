@@ -1,6 +1,8 @@
 package org.vinod.jsf.bean.vo;
 
-public class Manager {
+import java.io.Serializable;
+
+public class Manager implements Serializable{
 	private int id;
 	private String name;
 	private String mobile;

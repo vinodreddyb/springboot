@@ -1,5 +1,6 @@
 package org.vinod.jsf.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.vinod.jsf.bean.vo.Manager;
@@ -16,7 +19,7 @@ import org.vinod.jsf.service.ManagerService;
 @Component
 @ManagedBean
 @ViewScoped
-public class ManagerBean {
+public class ManagerBean implements Serializable {
 
 	private Manager manager = new Manager();
 	
@@ -32,7 +35,7 @@ public class ManagerBean {
 		try {
 			managerService.save(manager);
 			manager = new Manager();
-			
+			setDisplayManagers(false);
 	        context.addMessage(null, new FacesMessage("Successful",  "Manager Added Successfully") );
 		} catch (Exception e) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving manager", 
@@ -41,14 +44,27 @@ public class ManagerBean {
 		}
 	}
 	
-	public void loadAllManagers() {
-		System.out.println("hiiiiiiiiiiii");
+	public void onToggle(ToggleEvent event) {
+		
+		if("VISIBLE".equalsIgnoreCase(event.getVisibility().name())) {
+			loadAllActiveManagers();
+		}
+       
+    }
+	
+	public void onRowSelect(SelectEvent event) {
+		Manager manager = (Manager) event.getObject();
+        setManager(manager);
+    }
+	
+	private void loadAllActiveManagers() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			
 			setListManagers(managerService.getAllManagers());
 			setDisplayManagers(true);
 		} catch (Exception e) {
-		
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving manager", 
+					e.toString()));
 		}
 	}
 

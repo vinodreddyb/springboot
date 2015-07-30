@@ -21,6 +21,7 @@ public class ManagerServiceImpl implements ManagerService {
 		dto.setName(manager.getName());
 		dto.setMobile(manager.getMobile());
 		dto.setEmail(manager.getEmail());
+		dto.setLocation(manager.getLocation());
 		managerDao.save(dto);
 	}
 	
