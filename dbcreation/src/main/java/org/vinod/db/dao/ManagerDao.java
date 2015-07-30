@@ -8,4 +8,5 @@ public interface ManagerDao  {
 	
 	public void save(ManagerDTO managerDTO) throws Exception;
 	public List<ManagerDTO> getAllManagers() throws Exception;
+	public void update(final ManagerDTO managerDTO) throws Exception;
 }

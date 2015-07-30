@@ -27,10 +27,37 @@ public class ManagerBean implements Serializable {
 	
 	private boolean displayManagers;
 	
+	private boolean isUpdateRequest;
+	
 	@Autowired
 	private ManagerService managerService;
 	
 	public void saveManager() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String message = "";
+		try {
+			if(isUpdateRequest) {
+				message = "Manager Update Successfully";
+				managerService.update(manager);
+				setUpdateRequest(false);
+			} else {
+				message = "Manager Added Successfully";
+				managerService.save(manager);
+			}
+			
+			manager = new Manager();
+			setDisplayManagers(false);
+			
+	        context.addMessage(null, new FacesMessage("Successful",  message) );
+	        
+		} catch (Exception e) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving/updating manager", 
+					e.toString()));
+			e.printStackTrace();
+		}
+	}
+	
+	/*public void update() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			managerService.save(manager);
@@ -42,7 +69,7 @@ public class ManagerBean implements Serializable {
 					e.toString()));
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void onToggle(ToggleEvent event) {
 		
@@ -54,7 +81,8 @@ public class ManagerBean implements Serializable {
 	
 	public void onRowSelect(SelectEvent event) {
 		Manager manager = (Manager) event.getObject();
-        setManager(manager);
+	    setManager(manager);
+	    setUpdateRequest(true);
     }
 	
 	private void loadAllActiveManagers() {
@@ -90,6 +118,14 @@ public class ManagerBean implements Serializable {
 
 	public void setDisplayManagers(boolean displayManagers) {
 		this.displayManagers = displayManagers;
+	}
+
+	public boolean isUpdateRequest() {
+		return isUpdateRequest;
+	}
+
+	public void setUpdateRequest(boolean isUpdateRequest) {
+		this.isUpdateRequest = isUpdateRequest;
 	}
 	
 }

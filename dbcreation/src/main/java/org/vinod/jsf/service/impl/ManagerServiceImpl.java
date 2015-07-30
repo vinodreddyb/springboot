@@ -25,6 +25,16 @@ public class ManagerServiceImpl implements ManagerService {
 		managerDao.save(dto);
 	}
 	
+	public void update(Manager manager) throws Exception {
+		ManagerDTO dto = new ManagerDTO();
+		dto.setId(manager.getId());
+		dto.setName(manager.getName());
+		dto.setMobile(manager.getMobile());
+		dto.setEmail(manager.getEmail());
+		dto.setLocation(manager.getLocation());
+		managerDao.update(dto);
+	}
+	
 	public List<Manager> getAllManagers() throws Exception {
 		List<Manager> managers = new ArrayList<>();
 		List<ManagerDTO> managersFrmDB = managerDao.getAllManagers();

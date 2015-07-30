@@ -36,14 +36,16 @@
 				<p:commandButton value="Submit" id="btnSaveManager"
 					onstart="PF('dlgShow').show()"
 					update="tabMain:managerFields"
-					oncomplete="PF('dlgShow').hide()"
+					oncomplete="PF('dlgShow').hide(), PF('pnlTblManagers').collapse()"
 					action="#{managerBean.saveManager}" />
 				<p:commandButton value="Reset" />
 				
 			</p:panel>
 		</h:form>
-		<h:form>
-			<p:panel id="pnlTblManagers" toggleable="true" collapsed="#{!managerBean.displayManagers}" header="Managers"
+		<h:form id="frmManagersView">
+		
+	
+			<p:panel id="pnlTblManagers" toggleable="true" widgetVar="pnlTblManagers" collapsed="true" header="Managers"
 				toggleOrientation="horizontal">
 				<p:ajax event="toggle" listener="#{managerBean.onToggle}" update="tabMain:managerFields" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide()" />
 				<p:dataTable var="manager" value="#{managerBean.listManagers}" selectionMode="single"  rowKey="#{manager.id}"
@@ -68,6 +70,7 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
+				
 			</h:form>
 	</p:fieldset>
 
