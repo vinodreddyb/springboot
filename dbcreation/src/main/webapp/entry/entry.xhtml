@@ -41,21 +41,24 @@
 			}
 
 		}
+		function diablePO() {
+			$("[id='tabMain:frmData:calPoDate_input']").attr(
+					"disabled", "true");
+			$("[id='tabMain:frmData:calPoDate_input']")
+					.attr("class",
+							"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+		}
 		$(document)
 				.ready(
 						function() {
-							$("[id='tabMain:frmData:calPoDate_input']").attr(
-									"disabled", "true");
-							$("[id='tabMain:frmData:calPoDate_input']")
-									.attr("class",
-											"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
 							loadManagersData();
-						});
+							diablePO();
+		});
 	</script>
 </h:head>
 <h:form id="frmData">
 <p:remoteCommand id="rc" name="loadManagersData" process="@this"
-				actionListener="#{entryBean.loadAllManagers}" update="@form:pnlData" >
+				actionListener="#{entryBean.loadAllManagers}" update="@form:accountManager"  >
 				
 </p:remoteCommand>
 	<div style="width: 100%">
@@ -65,7 +68,7 @@
 			<p:inputText styleClass="inputTextWidth" tabindex="1"></p:inputText>
 			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
 			<p:panel style="border:none">
-				<p:selectOneMenu id="console" style="width:100px;float:left"
+				<p:selectOneMenu id="selectManagers" style="width:100px;float:left"
 					widgetVar="serviceType"  tabindex="11">
 					<f:selectItem itemLabel="" itemValue="" />
 					<f:selectItem itemLabel="ECS" itemValue="ECS" />
@@ -88,6 +91,7 @@
 			<p:outputLabel value="PO Number" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" widgetVar="txtPoNum"
 				disabled="true" tabindex="13"></p:inputText>
+				
 			<h:outputText value="Email" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" tabindex="3" 
 				requiredMessage="Please enter your email address."
@@ -142,13 +146,13 @@
 			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="9"/>
 			
 			<h:outputText value="Os Version" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="10"/>
+			<p:inputText styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="20"/>
 			
 			<h:outputText value="Public IP" styleClass="inputTextWidth" />
 			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="10"/>
 			
 			<h:outputText value="Remarks" styleClass="inputTextWidth" />
-			<p:inputTextarea styleClass="inputTextWidth" tabindex="20"/>
+			<p:inputTextarea styleClass="inputTextWidth" tabindex="21"/>
 			
 			
 			
@@ -159,7 +163,7 @@
 		</p:panelGrid>
 
 		<p:panelGrid columns="2"
-			style="width: 15%; margin:0 auto; margin-top: 20px">
+			style="width: 10%; margin:0 auto; margin-top: 20px">
 			<p:commandButton value="Submit" />
 			<p:commandButton value="Cancel" />
 
