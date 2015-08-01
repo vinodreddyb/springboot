@@ -9,23 +9,112 @@
 		<p:panel style="width: 50%; margin: 0 auto; border:none"
 			id="pnlSearchText">
 			<p:inputText style="width:400px; height: 20px;" required="true"
-				requiredMessage="Please enter name" tabindex="1" id="txtSearch" />
-			<p:watermark value="Search" for="txtSearch" />
-			<p:commandButton value="Submit" id="btnSearch"
+				requiredMessage="Please enter name" tabindex="1" id="txtSearch"  value="#{entryBean.search.searchValue}"/>
+			<p:watermark value="Search" for="txtSearch"  />
+			<p:commandButton value="Submit" id="btnSearch" action="#{entryBean.search}"
 				style="margin-left:10px" onstart="PF('dlgShow').show()"
-				update="growlSearch"
-				oncomplete="PF('dlgShow').hide(),PF('pnlTblManagers').toggle()" />
-			<p:selectOneRadio>
-				<f:selectItem itemLabel="Private IP" />
-				<f:selectItem itemLabel="Public IP" />
-				<f:selectItem itemLabel="VM" />
-				<f:selectItem itemLabel="Customer" />
-				<f:selectItem itemLabel="Manager" />
+				update="tabMain:frmSearchData:pnlSearchTable"
+				oncomplete="PF('dlgShow').hide()" />
+			<p:selectOneRadio value="#{entryBean.search.searchBy}">
+				<f:selectItem itemLabel="Private IP" itemValue="prip" />
+				<f:selectItem itemLabel="Public IP" itemValue="puip" />
+				<f:selectItem itemLabel="VM" itemValue="vm" />
+				<f:selectItem itemLabel="Customer" itemValue="customer" />
+				<f:selectItem itemLabel="Manager" itemValue="manager" />
 			</p:selectOneRadio>
 
 		</p:panel>
+		</h:form>
+		<h:form id="frmSearchData">
+		<p:panel style="width: 100%; margin: 0 auto; border:none"
+			id="pnlSearchTable">
+			<h:commandLink>
+				<h:graphicImage value="/images/excel.png" />
+				<p:dataExporter type="xls" target="tblSearch" fileName="report" />
+			</h:commandLink>
+			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
+				selectionMode="single" rowKey="#{entry.id}" rows="50"
+				paginator="true" 
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				
 
-		
+				<p:column headerText="Organization">
+						<h:outputText value="#{entry.orgname}" />
+				</p:column>
+				<p:column headerText="Contact Name">
+						<h:outputText value="#{entry.contactName}" />
+				</p:column>
+				<p:column headerText="Email">
+						<h:outputText value="#{entry.email}" />
+				</p:column>
+				<p:column headerText="Contact Number">
+						<h:outputText value="#{entry.contactNum}" />
+				</p:column>
+				<p:column headerText="Location">
+						<h:outputText value="#{entry.location}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{entry.startDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="End date">
+					<h:outputText value="#{entry.endDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Shutdown date">
+					<h:outputText value="#{entry.shutdownDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Private IP">
+						<h:outputText value="#{entry.privateIp}" />
+				</p:column>
+				<p:column headerText="Public IP">
+						<h:outputText value="#{entry.publicIp}" />
+				</p:column>
+				<p:column headerText="Service">
+						<h:outputText value="#{entry.service}" />
+				</p:column>
+				<p:column headerText="Service Type">
+						<h:outputText value="#{entry.serviceType}" />
+				</p:column>
+				<p:column headerText="PO Number">
+						<h:outputText value="#{entry.poNum}" />
+				</p:column>
+				<p:column headerText="PO Date">
+					<h:outputText value="#{entry.poDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Account Manager">
+						<h:outputText value="#{entry.managerName}" />
+				</p:column>
+				<p:column headerText="VM name">
+						<h:outputText value="#{entry.vmName}" />
+				</p:column>
+				<p:column headerText="V Ram">
+						<h:outputText value="#{entry.vRam}" />
+				</p:column>
+				<p:column headerText="V CPU">
+						<h:outputText value="#{entry.vCpu}" />
+				</p:column>
+				<p:column headerText="V Hdd">
+						<h:outputText value="#{entry.vHdd}" />
+				</p:column>
+				<p:column headerText="Os version">
+						<h:outputText value="#{entry.osVersion}" />
+				</p:column>
+				<p:column headerText="Remarks">
+						<h:outputText value="#{entry.remarks}" />
+				</p:column>
+				
+			</p:dataTable>
+		</p:panel>
+
 
 
 	</h:form>

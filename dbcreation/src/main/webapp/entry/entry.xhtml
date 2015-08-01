@@ -57,19 +57,18 @@
 	</script>
 </h:head>
 <h:form id="frmData">
+<p:growl id="growlEntry" showDetail="true"  />
 <p:remoteCommand id="rc" name="loadManagersData" process="@this"
-				actionListener="#{entryBean.loadAllManagers}" update="@form:accountManager"  >
-				
-</p:remoteCommand>
+				actionListener="#{entryBean.loadAllManagers}" update="@form:accountManager"  />
 	<div style="width: 100%">
 		<p:panelGrid id="pnlData" columns="4"
 			style="width: 80%;border:none;margin: 0 auto">
 			<h:outputText value="Organisation Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="1"></p:inputText>
+			<p:inputText styleClass="inputTextWidth" tabindex="1" value="#{entryBean.entry.orgname}"/>
 			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
 			<p:panel style="border:none">
 				<p:selectOneMenu id="selectManagers" style="width:100px;float:left"
-					widgetVar="serviceType"  tabindex="11">
+					widgetVar="serviceType"  tabindex="11" value="#{entryBean.entry.service}">
 					<f:selectItem itemLabel="" itemValue="" />
 					<f:selectItem itemLabel="ECS" itemValue="ECS" />
 					<f:selectItem itemLabel="IV" itemValue="IV" />
@@ -77,7 +76,7 @@
 					<f:selectItem itemLabel="HDDC" itemValue="HDDC" />
 				</p:selectOneMenu>
 				<p:selectOneRadio id="serviceType" style="width:120px;float:left" widgetVar="payType"
-						onchange="showPO(this.value)" tabindex="12" value="#{entryBean.entry.payService}">
+						onchange="showPO(this.value)" tabindex="12" value="#{entryBean.entry.serviceType}">
 					<f:selectItem itemLabel="POC" itemValue="POC"  />
 					<f:selectItem itemLabel="PAID" itemValue="PAID" />
 					
@@ -86,14 +85,14 @@
 			</p:panel>
 			
 			<h:outputText value="Contact Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="2"/>
+			<p:inputText styleClass="inputTextWidth" value="#{entryBean.entry.contactName}" tabindex="2"/>
 
 			<p:outputLabel value="PO Number" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" widgetVar="txtPoNum"
-				disabled="true" tabindex="13"></p:inputText>
+				disabled="true" tabindex="13" value="#{entryBean.entry.poNum}"></p:inputText>
 				
 			<h:outputText value="Email" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="3" 
+			<p:inputText styleClass="inputTextWidth" tabindex="3" value="#{entryBean.entry.email}"
 				requiredMessage="Please enter your email address."
 				validatorMessage="Invalid email format">
 				<f:validateRegex
@@ -102,70 +101,65 @@
 			
 			<h:outputText value="PO Date" styleClass="inputTextWidth" />
 			<p:calendar size="37" id="calPoDate" readonlyInput="true"
-				pattern="dd/MM/yyyy" tabindex="14"/>
+				pattern="dd/MM/yyyy" tabindex="14" value="#{entryBean.entry.poDate}"/>
 			<h:outputText value="Contact No" styleClass="inputTextWidth"  />
-			<p:inputText styleClass="inputTextWidth" tabindex="4"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="4" value="#{entryBean.entry.contactNum}"/>
 			
 			
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
 			<p:selectOneMenu id="accountManager" style="width:210px;float:left"
-					widgetVar="accountManager"  tabindex="15">
+					widgetVar="accountManager"  tabindex="15" value="#{entryBean.entry.accManager}">
 				<f:selectItem itemLabel="" itemValue="" />
 				<f:selectItems var="manager" itemLabel="#{manager.name}" itemValue="#{manager.id}" value="#{entryBean.listManagers}"/>		
 			</p:selectOneMenu>
 			
 			
 			<h:outputText value="Location" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="5"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="5" value="#{entryBean.entry.location}"/>
 			
 			<h:outputText value="Vm Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="16"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="16" value="#{entryBean.entry.vmName}"/>
 			
 			<h:outputText value="Start Date" styleClass="inputTextWidth" />
 			<p:calendar id="calStartDate" readonlyInput="true"
-				pattern="dd/MM/yyyy" size="37" tabindex="6"/>
+				pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entryBean.entry.startDate}"/>
 			<h:outputText value="Vram" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="17"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="17" value="#{entryBean.entry.vRam}"/>
 			
 			<h:outputText value="End Date" styleClass="inputTextWidth" />
 			<p:calendar id="calEndDate" readonlyInput="true" pattern="dd/MM/yyyy"
-				size="37" tabindex="7"/>
+				size="37" tabindex="7" value="#{entryBean.entry.endDate}"/>
 			<h:outputText value="Vcpu" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="18"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="18" value="#{entryBean.entry.vCpu}"/>
 			
 			<h:outputText value="Shut Down date" styleClass="inputTextWidth" />
 			<p:calendar id="calShutDate" readonlyInput="true"
-				pattern="dd/MM/yyyy" size="37" tabindex="8"/>
+				pattern="dd/MM/yyyy" size="37" tabindex="8" value="#{entryBean.entry.shutdownDate}"/>
 			
 			
 			
 			<h:outputText value="VHdd" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="19"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="19" value="#{entryBean.entry.vHdd}"/>
 			
 			<h:outputText value="Private Ip" styleClass="inputTextWidth" />
-			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="9"/>
+			<p:inputText styleClass="inputTextWidth"  tabindex="9" value="#{entryBean.entry.privateIp}"/>
 			
 			<h:outputText value="Os Version" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="20"/>
+			<p:inputText styleClass="inputTextWidth"  tabindex="20" value="#{entryBean.entry.osVersion}"/>
 			
 			<h:outputText value="Public IP" styleClass="inputTextWidth" />
-			<p:inputMask styleClass="inputTextWidth"  mask="999.999.999.999" tabindex="10"/>
+			<p:inputText styleClass="inputTextWidth"   tabindex="10" value="#{entryBean.entry.publicIp}"/>
 			
 			<h:outputText value="Remarks" styleClass="inputTextWidth" />
-			<p:inputTextarea styleClass="inputTextWidth" tabindex="21"/>
-			
-			
-			
-			
-			
-			
+			<p:inputTextarea styleClass="inputTextWidth" tabindex="21" value="#{entryBean.entry.remarks}"/>
 
 		</p:panelGrid>
 
 		<p:panelGrid columns="2"
 			style="width: 10%; margin:0 auto; margin-top: 20px">
-			<p:commandButton value="Submit" />
-			<p:commandButton value="Cancel" />
+			<p:commandButton value="Submit" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide()"  
+				action="#{entryBean.save}" update="tabMain:frmData:pnlData,growlEntry"/>
+			<p:commandButton value="Reset" action="#{entryBean.reset}" update="tabMain:frmData:pnlData"/>
 
 		</p:panelGrid>
 	</div>
