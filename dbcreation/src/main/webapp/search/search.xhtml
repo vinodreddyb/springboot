@@ -4,10 +4,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
+<style>
+.column {
+ text-align: center;
+ width:100%;
+}
+</style>
 	<h:form id="frmSearch">
 		<p:growl id="growlSearch" showDetail="true" />
 		<p:panel style="width: 50%; margin: 0 auto; border:none"
-			id="pnlSearchText">
+			id="pnlSearchText" header="Search Panel"  toggleable="true">
 			<p:inputText style="width:400px; height: 20px;" required="true"
 				requiredMessage="Please enter name" tabindex="1" id="txtSearch"  value="#{entryBean.search.searchValue}"/>
 			<p:watermark value="Search" for="txtSearch"  />
@@ -15,6 +21,12 @@
 				style="margin-left:10px" onstart="PF('dlgShow').show()"
 				update="tabMain:frmSearchData:pnlSearchTable"
 				oncomplete="PF('dlgShow').hide()" />
+				<h:commandLink>
+				<h:graphicImage value="/images/excel.png" />
+				<p:dataExporter type="xls" target="tabMain:frmSearchData:tblSearch" fileName="report" />
+			</h:commandLink>
+			<p:commandButton id="toggler" type="button" value="Columns"  icon="ui-icon-calculator" />
+            <p:columnToggler datasource="tabMain:frmSearchData:tblSearch" trigger="toggler"  />
 			<p:selectOneRadio value="#{entryBean.search.searchBy}">
 				<f:selectItem itemLabel="Private IP" itemValue="prip" />
 				<f:selectItem itemLabel="Public IP" itemValue="puip" />
@@ -22,94 +34,92 @@
 				<f:selectItem itemLabel="Customer" itemValue="customer" />
 				<f:selectItem itemLabel="Manager" itemValue="manager" />
 			</p:selectOneRadio>
-
+            
 		</p:panel>
 		</h:form>
 		<h:form id="frmSearchData">
 		<p:panel style="width: 100%; margin: 0 auto; border:none"
-			id="pnlSearchTable">
-			<h:commandLink>
-				<h:graphicImage value="/images/excel.png" />
-				<p:dataExporter type="xls" target="tblSearch" fileName="report" />
-			</h:commandLink>
+			id="pnlSearchTable" >
+			
+			<br/>
 			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
-				selectionMode="single" rowKey="#{entry.id}" rows="50"
+				selectionMode="single" rowKey="#{entry.id}" rows="50" 
 				paginator="true" 
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15">
 				
 
-				<p:column headerText="Organization">
-						<h:outputText value="#{entry.orgname}" />
+				<p:column headerText="Organization" width="200" sortBy="#{entry.orgname}" styleClass="column">
+						<h:outputText value="#{entry.orgname}"  />
 				</p:column>
-				<p:column headerText="Contact Name">
-						<h:outputText value="#{entry.contactName}" />
+				<p:column headerText="Contact Name" width="200" sortBy="#{entry.contactName}" styleClass="column">
+						<h:outputText value="#{entry.contactName}"  />
 				</p:column>
-				<p:column headerText="Email">
-						<h:outputText value="#{entry.email}" />
+				<p:column headerText="Email" width="200" sortBy="#{entry.email}" styleClass="column">
+						<h:outputText value="#{entry.email}"  />
 				</p:column>
-				<p:column headerText="Contact Number">
-						<h:outputText value="#{entry.contactNum}" />
+				<p:column headerText="Contact Number" width="200" sortBy="#{entry.contactNum}" styleClass="column">
+						<h:outputText value="#{entry.contactNum}" styleClass="column"/>
 				</p:column>
-				<p:column headerText="Location">
+				<p:column headerText="Location" width="200" sortBy="#{entry.location}" styleClass="column">
 						<h:outputText value="#{entry.location}" />
 				</p:column>
-				<p:column headerText="Start Date">
+				<p:column headerText="Start Date" width="200" sortBy="#{entry.startDate}" styleClass="column">
 					<h:outputText value="#{entry.startDate}">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</h:outputText>
 				</p:column>
-				<p:column headerText="End date">
+				<p:column headerText="End date" width="200" sortBy="#{entry.endDate}" styleClass="column">
 					<h:outputText value="#{entry.endDate}">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Shutdown date">
+				<p:column headerText="Shutdown date" width="200" sortBy="#{entry.shutdownDate}" styleClass="column">
 					<h:outputText value="#{entry.shutdownDate}">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Private IP">
-						<h:outputText value="#{entry.privateIp}" />
+				<p:column headerText="Private IP" width="200" sortBy="#{entry.privateIp}" styleClass="column">
+						<h:outputText value="#{entry.privateIp}"/>
 				</p:column>
-				<p:column headerText="Public IP">
+				<p:column headerText="Public IP" width="200" sortBy="#{entry.publicIp}" styleClass="column">
 						<h:outputText value="#{entry.publicIp}" />
 				</p:column>
-				<p:column headerText="Service">
-						<h:outputText value="#{entry.service}" />
+				<p:column headerText="Service" width="200" sortBy="#{entry.service}" styleClass="column">
+						<h:outputText value="#{entry.service}"/>
 				</p:column>
-				<p:column headerText="Service Type">
-						<h:outputText value="#{entry.serviceType}" />
+				<p:column headerText="Service Type" width="200" sortBy="#{entry.serviceType}" styleClass="column">
+						<h:outputText value="#{entry.serviceType}"/>
 				</p:column>
-				<p:column headerText="PO Number">
+				<p:column headerText="PO Number" width="200" sortBy="#{entry.poNum}" styleClass="column">
 						<h:outputText value="#{entry.poNum}" />
 				</p:column>
-				<p:column headerText="PO Date">
-					<h:outputText value="#{entry.poDate}">
+				<p:column headerText="PO Date" width="200" sortBy="#{entry.poDate}" styleClass="column">
+					<h:outputText value="#{entry.poDate}" >
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Account Manager">
-						<h:outputText value="#{entry.managerName}" />
+				<p:column headerText="Account Manager" width="200"  sortBy="#{entry.managerName}" styleClass="column">
+						<h:outputText value="#{entry.managerName}"/>
 				</p:column>
-				<p:column headerText="VM name">
+				<p:column headerText="VM name" width="200"  sortBy="#{entry.vmName}" styleClass="column"> 
 						<h:outputText value="#{entry.vmName}" />
 				</p:column>
-				<p:column headerText="V Ram">
-						<h:outputText value="#{entry.vRam}" />
+				<p:column headerText="V Ram" width="200"  sortBy="#{entry.vRam}" styleClass="column">
+						<h:outputText value="#{entry.vRam}"/>
 				</p:column>
-				<p:column headerText="V CPU">
-						<h:outputText value="#{entry.vCpu}" />
+				<p:column headerText="V CPU" width="200"  sortBy="#{entry.vCpu}" styleClass="column">
+						<h:outputText value="#{entry.vCpu}"/>
 				</p:column>
-				<p:column headerText="V Hdd">
+				<p:column headerText="V Hdd" width="200" styleClass="column" sortBy="#{entry.vHdd}">
 						<h:outputText value="#{entry.vHdd}" />
 				</p:column>
-				<p:column headerText="Os version">
+				<p:column headerText="Os version" width="200" styleClass="column" sortBy="#{entry.osVersion}">
 						<h:outputText value="#{entry.osVersion}" />
 				</p:column>
-				<p:column headerText="Remarks">
-						<h:outputText value="#{entry.remarks}" />
+				<p:column headerText="Remarks" width="200" styleClass="column" sortBy="#{entry.remarks}">
+						<h:outputText value="#{entry.remarks}"/>
 				</p:column>
 				
 			</p:dataTable>

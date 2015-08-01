@@ -8,7 +8,7 @@ public class Search implements Serializable{
 	 */
 	private static final long serialVersionUID = -4322080318199706415L;
 	private String searchValue;
-	private String searchBy;
+	private String searchBy ="customer";
 	public String getSearchValue() {
 		return searchValue;
 	}

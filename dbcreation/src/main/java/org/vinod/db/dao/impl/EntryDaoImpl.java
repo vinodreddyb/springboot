@@ -69,19 +69,24 @@ public class EntryDaoImpl implements EntryDao{
 				+ "entry.podate,manager.id as managerId,manager.name as manager,entry.vmname,entry.vmram,entry.vcpu,entry.vhdd,entry.osversion,"
 				+ "entry.remarks,entry.entrydate FROM tbl_entry as entry "
 				+ "join nmsdb.tbl_managers as manager on manager.id = entry.accmanager ");
-		if("prip".equals(searchBy)) {
-			sql.append("WHERE entry.privateip = ?");
-		} else if("puip".equals(searchBy)) {
-			sql.append("WHERE entry.publicip = ?");
-		} else if("vm".equals(searchBy)) {
-			sql.append("WHERE entry.vmname = ?");
-		} else if("customer".equals(searchBy)) {
-			sql.append("WHERE entry.contactname = ?");
-		} else if("manager".equals(searchBy)) {
-			sql.append("WHERE entry.accmanager = ?");
-		}
 		try {
-			list = jdbcTemplate.query(sql.toString(), new Object[]{searchValue},new EntryRowMapper());
+			if("*".equals(searchValue)) {
+				list = jdbcTemplate.query(sql.toString(), new EntryRowMapper());
+			} else {
+				if("prip".equals(searchBy)) {
+					sql.append("WHERE entry.privateip = ?");
+				} else if("puip".equals(searchBy)) {
+					sql.append("WHERE entry.publicip = ?");
+				} else if("vm".equals(searchBy)) {
+					sql.append("WHERE entry.vmname = ?");
+				} else if("customer".equals(searchBy)) {
+					sql.append("WHERE entry.contactname = ?");
+				} else if("manager".equals(searchBy)) {
+					sql.append("WHERE entry.accmanager = ?");
+				}
+				list = jdbcTemplate.query(sql.toString(),new Object[]{searchValue},new EntryRowMapper());
+			}
+			
 		} catch (DataAccessException e) {
 			throw e;
 		}

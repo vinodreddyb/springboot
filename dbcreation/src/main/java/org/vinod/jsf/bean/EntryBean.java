@@ -1,6 +1,7 @@
 package org.vinod.jsf.bean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -40,23 +41,27 @@ public class EntryBean {
 	public void save() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			
+			boolean isDataValid = validate(entry, context);
+			if(!isDataValid) {
+				return;
+			}
 			entryService.save(entry);
-	        context.addMessage(null, new FacesMessage("Successful",  "Entry saved Succcessfully") );
+			setEntry(new Entry());
+	        context.addMessage(null, new FacesMessage("",  "Entry saved Succcessfully") );
 	   } catch (Exception e) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving/updating Entry", 
 					e.toString()));
-			 
-			e.printStackTrace();
-		} finally {
 			setEntry(new Entry());
-		}
+		} 
 	}
 	
 	public void reset() {
 		setEntry(new Entry());
 	}
 	
+	public void resetSearch() {
+		setSearch(new Search());
+	}
 	public void search() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -90,6 +95,28 @@ public class EntryBean {
 		} catch (Exception e) {
 		
 		}
+	}
+	
+	private boolean validate(Entry entry, FacesContext context) {
+		
+		
+		Date sd = entry.getStartDate();
+		Date ed = entry.getEndDate();
+		Date shutDate = entry.getShutdownDate();
+		if(!sd.before(ed)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Validation Error", 
+					"End date should be after start date"));
+			return false;
+		}
+		
+		if(!shutDate.after(ed)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Validation Error", 
+					"Shutdown date should be after end date"));
+			return false;
+		}
+		return true;
+		
+		
 	}
 
 	public List<Manager> getListManagers() {

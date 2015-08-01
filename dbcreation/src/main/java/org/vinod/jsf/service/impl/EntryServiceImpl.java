@@ -71,7 +71,9 @@ public class EntryServiceImpl implements EntryService {
 				entry.setService(entryDTO.getService());
 				entry.setServiceType(entryDTO.getServiceType());
 				entry.setPoNum(entryDTO.getPoNum());
-				entry.setPoDate(new Date(entryDTO.getPoDate().getTime()));
+				if(entryDTO.getPoDate() != null) {
+				 entry.setPoDate(new Date(entryDTO.getPoDate().getTime()));
+				}
 				entry.setManagerName(entryDTO.getManagerName());
 				entry.setAccManager(entryDTO.getAccManager());
 				entry.setVmName(entryDTO.getVmName());

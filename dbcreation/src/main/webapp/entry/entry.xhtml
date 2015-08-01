@@ -23,6 +23,8 @@
 				$("[id='tabMain:frmData:calPoDate_input']")
 						.attr("class",
 								"ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker");
+				$("[id='tabMain:frmData:calPoDate']").attr("required",	"true");
+				$("[id='tabMain:frmData:calPoDate']").attr("requiredMessage",	"Please enter PO date");
 			} else {
 				PF('txtPoNum').jq.attr("disabled", "true");
 				PF('txtPoNum').jq
@@ -38,6 +40,8 @@
 						.attr("class",
 								"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
 				$("[id='tabMain:frmData:calPoDate_input']").val("");
+				$("[id='tabMain:frmData:calPoDate']").removeAttr("required");
+				$("[id='tabMain:frmData:calPoDate']").removeAttr("requiredMessage");
 			}
 
 		}
@@ -57,14 +61,15 @@
 	</script>
 </h:head>
 <h:form id="frmData">
-<p:growl id="growlEntry" showDetail="true"  />
+ <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 <p:remoteCommand id="rc" name="loadManagersData" process="@this"
 				actionListener="#{entryBean.loadAllManagers}" update="@form:accountManager"  />
 	<div style="width: 100%">
 		<p:panelGrid id="pnlData" columns="4"
 			style="width: 80%;border:none;margin: 0 auto">
 			<h:outputText value="Organisation Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="1" value="#{entryBean.entry.orgname}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="1" value="#{entryBean.entry.orgname}" 
+				required="true" requiredMessage="Please enter Organization name"/>
 			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
 			<p:panel style="border:none">
 				<p:selectOneMenu id="selectManagers" style="width:100px;float:left"
@@ -85,7 +90,8 @@
 			</p:panel>
 			
 			<h:outputText value="Contact Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" value="#{entryBean.entry.contactName}" tabindex="2"/>
+			<p:inputText styleClass="inputTextWidth" value="#{entryBean.entry.contactName}" tabindex="2"
+			    required="true" requiredMessage="Please enter Contact name"/>
 
 			<p:outputLabel value="PO Number" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" widgetVar="txtPoNum"
@@ -93,21 +99,21 @@
 				
 			<h:outputText value="Email" styleClass="inputTextWidth" />
 			<p:inputText styleClass="inputTextWidth" tabindex="3" value="#{entryBean.entry.email}"
-				requiredMessage="Please enter your email address."
+				requiredMessage="Please enter  email address." required="true"
 				validatorMessage="Invalid email format">
 				<f:validateRegex
 					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			</p:inputText>
 			
 			<h:outputText value="PO Date" styleClass="inputTextWidth" />
-			<p:calendar size="37" id="calPoDate" readonlyInput="true"
+			<p:calendar size="37" id="calPoDate" readonlyInput="true" 
 				pattern="dd/MM/yyyy" tabindex="14" value="#{entryBean.entry.poDate}"/>
 			<h:outputText value="Contact No" styleClass="inputTextWidth"  />
 			<p:inputText styleClass="inputTextWidth" tabindex="4" value="#{entryBean.entry.contactNum}"/>
 			
 			
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
-			<p:selectOneMenu id="accountManager" style="width:210px;float:left"
+			<p:selectOneMenu id="accountManager" style="width:210px;float:left" 
 					widgetVar="accountManager"  tabindex="15" value="#{entryBean.entry.accManager}">
 				<f:selectItem itemLabel="" itemValue="" />
 				<f:selectItems var="manager" itemLabel="#{manager.name}" itemValue="#{manager.id}" value="#{entryBean.listManagers}"/>		
@@ -115,51 +121,60 @@
 			
 			
 			<h:outputText value="Location" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="5" value="#{entryBean.entry.location}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="5" value="#{entryBean.entry.location}" 
+				required="true" requiredMessage="Please enter location"/>
 			
 			<h:outputText value="Vm Name" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="16" value="#{entryBean.entry.vmName}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="16" value="#{entryBean.entry.vmName}"
+			 required="true" requiredMessage="Please enter VM name"/>
 			
 			<h:outputText value="Start Date" styleClass="inputTextWidth" />
-			<p:calendar id="calStartDate" readonlyInput="true"
+			<p:calendar id="calStartDate" readonlyInput="true" required="true" requiredMessage="Please enter start date. "
 				pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entryBean.entry.startDate}"/>
 			<h:outputText value="Vram" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="17" value="#{entryBean.entry.vRam}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="17" value="#{entryBean.entry.vRam}" 
+				required="true" requiredMessage="Please enter  Vram."/>
 			
 			<h:outputText value="End Date" styleClass="inputTextWidth" />
 			<p:calendar id="calEndDate" readonlyInput="true" pattern="dd/MM/yyyy"
-				size="37" tabindex="7" value="#{entryBean.entry.endDate}"/>
+				size="37" tabindex="7" value="#{entryBean.entry.endDate}" required="true" requiredMessage="Please enter enddate "/>
 			<h:outputText value="Vcpu" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="18" value="#{entryBean.entry.vCpu}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="18" value="#{entryBean.entry.vCpu}" 
+				required="true" requiredMessage="Please enter  Vcpu"/>
 			
 			<h:outputText value="Shut Down date" styleClass="inputTextWidth" />
-			<p:calendar id="calShutDate" readonlyInput="true"
+			<p:calendar id="calShutDate" readonlyInput="true" required="true" requiredMessage="Please enter shutdown "
 				pattern="dd/MM/yyyy" size="37" tabindex="8" value="#{entryBean.entry.shutdownDate}"/>
 			
 			
 			
 			<h:outputText value="VHdd" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth" tabindex="19" value="#{entryBean.entry.vHdd}"/>
+			<p:inputText styleClass="inputTextWidth" tabindex="19" value="#{entryBean.entry.vHdd}" 
+				required="true" requiredMessage="Please enter VHdd"/>
 			
 			<h:outputText value="Private Ip" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"  tabindex="9" value="#{entryBean.entry.privateIp}"/>
+			<p:inputText styleClass="inputTextWidth"  tabindex="9" value="#{entryBean.entry.privateIp}"
+				required="true" requiredMessage="Please enter private IP."/>
 			
 			<h:outputText value="Os Version" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"  tabindex="20" value="#{entryBean.entry.osVersion}"/>
+			<p:inputText styleClass="inputTextWidth"  tabindex="20" value="#{entryBean.entry.osVersion}"
+				required="true" requiredMessage="Please enter OS version "/>
 			
 			<h:outputText value="Public IP" styleClass="inputTextWidth" />
-			<p:inputText styleClass="inputTextWidth"   tabindex="10" value="#{entryBean.entry.publicIp}"/>
+			<p:inputText styleClass="inputTextWidth"   tabindex="10" value="#{entryBean.entry.publicIp}"
+			 required="true" requiredMessage="Please enter public IP"/>
 			
 			<h:outputText value="Remarks" styleClass="inputTextWidth" />
-			<p:inputTextarea styleClass="inputTextWidth" tabindex="21" value="#{entryBean.entry.remarks}"/>
+			<p:inputTextarea styleClass="inputTextWidth" tabindex="21" value="#{entryBean.entry.remarks}"
+				required="true" requiredMessage="Please enter Remarks"/>
 
 		</p:panelGrid>
 
 		<p:panelGrid columns="2"
 			style="width: 10%; margin:0 auto; margin-top: 20px">
-			<p:commandButton value="Submit" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide()"  
-				action="#{entryBean.save}" update="tabMain:frmData:pnlData,growlEntry"/>
-			<p:commandButton value="Reset" action="#{entryBean.reset}" update="tabMain:frmData:pnlData"/>
+			<p:commandButton value="Submit" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide(),diablePO()"  
+				action="#{entryBean.save}" update="tabMain:frmData:pnlData"/>
+			<p:commandButton value="Reset" action="#{entryBean.reset}" update="tabMain:frmData:pnlData" oncomplete="diablePO()"/>
 
 		</p:panelGrid>
 	</div>
