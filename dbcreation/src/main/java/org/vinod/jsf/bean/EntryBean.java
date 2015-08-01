@@ -81,10 +81,9 @@ public class EntryBean {
 	public void onTabChange(TabChangeEvent event) {
 		
 		String tabClicked = event.getTab().getTitle();
-		if("Data".equalsIgnoreCase(tabClicked)) {
-			if(listManagers == null || listManagers.size() == 0) {
-				loadAllManagers();
-			}
+		if("Search".equalsIgnoreCase(tabClicked)) {
+			setSearch(new Search());
+			setListEntries(new ArrayList<Entry>());
 		}
         
     }

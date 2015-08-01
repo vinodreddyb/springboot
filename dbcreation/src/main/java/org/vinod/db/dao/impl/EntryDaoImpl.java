@@ -82,7 +82,7 @@ public class EntryDaoImpl implements EntryDao{
 				} else if("customer".equals(searchBy)) {
 					sql.append("WHERE entry.contactname = ?");
 				} else if("manager".equals(searchBy)) {
-					sql.append("WHERE entry.accmanager = ?");
+					sql.append("WHERE manager.name = ?");
 				}
 				list = jdbcTemplate.query(sql.toString(),new Object[]{searchValue},new EntryRowMapper());
 			}

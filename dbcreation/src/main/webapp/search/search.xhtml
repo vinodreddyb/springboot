@@ -21,12 +21,8 @@
 				style="margin-left:10px" onstart="PF('dlgShow').show()"
 				update="tabMain:frmSearchData:pnlSearchTable"
 				oncomplete="PF('dlgShow').hide()" />
-				<h:commandLink>
-				<h:graphicImage value="/images/excel.png" />
-				<p:dataExporter type="xls" target="tabMain:frmSearchData:tblSearch" fileName="report" />
-			</h:commandLink>
-			<p:commandButton id="toggler" type="button" value="Columns"  icon="ui-icon-calculator" />
-            <p:columnToggler datasource="tabMain:frmSearchData:tblSearch" trigger="toggler"  />
+				
+			
 			<p:selectOneRadio value="#{entryBean.search.searchBy}">
 				<f:selectItem itemLabel="Private IP" itemValue="prip" />
 				<f:selectItem itemLabel="Public IP" itemValue="puip" />
@@ -40,6 +36,13 @@
 		<h:form id="frmSearchData">
 		<p:panel style="width: 100%; margin: 0 auto; border:none"
 			id="pnlSearchTable" >
+			
+			<p:commandButton id="toggler" type="button" value="Select Columns"  icon="ui-icon-calculator" style="float:right" />
+            <p:columnToggler id="columnTog" datasource="tabMain:frmSearchData:tblSearch" trigger="toggler"  />
+            <h:commandLink id="dataExpo" >
+				<h:graphicImage value="/images/excel.png" title="Export to excel"/>
+				<p:dataExporter type="xls"  target="tblSearch" fileName="report" />
+			</h:commandLink>
 			
 			<br/>
 			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
