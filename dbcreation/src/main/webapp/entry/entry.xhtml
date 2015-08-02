@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
+
 	<!-- This can be located either in the facelet or in external js file-->
 	<script>
 		function showPO(value) {
@@ -26,6 +25,13 @@
 				$("[id='tabMain:frmData:calPoDate']").attr("required",	"true");
 				$("[id='tabMain:frmData:calPoDate']").attr("requiredMessage",	"Please enter PO date");
 			} else {
+				// Disable selecting POC when user selected service either OPDC or HDDC
+				var service = PF('serviceType').getSelectedValue();
+				if(service == 'OPDC' || service == 'HDDC') {
+					PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+					return;
+				}
+				
 				PF('txtPoNum').jq.attr("disabled", "true");
 				PF('txtPoNum').jq
 						.attr(
@@ -52,6 +58,14 @@
 					.attr("class",
 							"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
 		}
+		function selectServiceType(value) {
+			if(value == 'OPDC' || value == 'HDDC') {
+				PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+			} else {
+				PF('payType').jq.find('input:radio[value="POC"]').parent().next().trigger('click.selectOneRadio');
+			}
+			
+		}
 		$(document)
 				.ready(
 						function() {
@@ -59,7 +73,7 @@
 							diablePO();
 		});
 	</script>
-</h:head>
+
 <h:form id="frmData">
  <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 <p:remoteCommand id="rc" name="loadManagersData" process="@this"
@@ -73,7 +87,8 @@
 			<h:outputText value="Type Of Service" styleClass="inputTextWidth" />
 			<p:panel style="border:none">
 				<p:selectOneMenu id="selectManagers" style="width:100px;float:left"
-					widgetVar="serviceType"  tabindex="11" value="#{entryBean.entry.service}">
+					widgetVar="serviceType"  tabindex="11" value="#{entryBean.entry.service}"
+					onchange="selectServiceType(this.value)">
 					<f:selectItem itemLabel="" itemValue="" />
 					<f:selectItem itemLabel="ECS" itemValue="ECS" />
 					<f:selectItem itemLabel="IV" itemValue="IV" />
@@ -81,7 +96,7 @@
 					<f:selectItem itemLabel="HDDC" itemValue="HDDC" />
 				</p:selectOneMenu>
 				<p:selectOneRadio id="serviceType" style="width:120px;float:left" widgetVar="payType"
-						onchange="showPO(this.value)" tabindex="12" value="#{entryBean.entry.serviceType}">
+						onchange="showPO(this.value)" tabindex="12" value="#{entryBean.entry.serviceType}" >
 					<f:selectItem itemLabel="POC" itemValue="POC"  />
 					<f:selectItem itemLabel="PAID" itemValue="PAID" />
 					
@@ -180,4 +195,4 @@
 	</div>
 </h:form>
 
-</html>
+</ui:composition>
