@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,11 +20,16 @@ import org.vinod.jsf.bean.vo.Search;
 import org.vinod.jsf.service.EntryService;
 import org.vinod.jsf.service.ManagerService;
 
+/**
+ * 
+ * @author vinod
+ *
+ */
 @Component
 @ManagedBean
 @ViewScoped
 public class EntryBean {
-	
+	private Logger log = Logger.getLogger(EntryBean.class);
 	@Autowired
 	private ManagerService managerService;
 	
@@ -37,7 +44,9 @@ public class EntryBean {
 	
 	private Search search = new Search();
 	
-	
+	/**
+	 * 
+	 */
 	public void save() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -49,19 +58,29 @@ public class EntryBean {
 			setEntry(new Entry());
 	        context.addMessage(null, new FacesMessage("",  "Entry saved Succcessfully") );
 	   } catch (Exception e) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving/updating Entry", 
-					e.toString()));
+		   log.error("Exception while saving Entry" + e.toString());
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception while saving Entry", 
+					e.getLocalizedMessage()));
 			setEntry(new Entry());
 		} 
 	}
 	
+	/**
+	 * 
+	 */
 	public void reset() {
 		setEntry(new Entry());
 	}
+	/**
+	 * 
+	 */
 	
 	public void resetSearch() {
 		setSearch(new Search());
 	}
+	/**
+	 * This method do the search
+	 */
 	public void search() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -69,8 +88,9 @@ public class EntryBean {
 			setListEntries(entryService.searchEntry(search));
 	        
 	   } catch (Exception e) {
+		   log.error("Exception while searching Entry" + e.toString());
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception occured while search Entries", 
-					e.toString()));
+					e.getLocalizedMessage()));
 			 
 			e.printStackTrace();
 		} finally {
@@ -92,10 +112,22 @@ public class EntryBean {
 		try {
 			listManagers = managerService.getAllManagers();
 		} catch (Exception e) {
-		
+			log.error("Exception while loading managers " + e.toString());
 		}
 	}
 	
+	public void onRowEdit(RowEditEvent event) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Entry editedEntry = (Entry) event.getObject();
+		
+		try {
+			entryService.edit(editedEntry);
+		} catch (Exception e) {
+			log.error("Exception while editing Entry" + e.toString());
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception occured editing Entry " + editedEntry.getId(), 
+					e.toString()));
+		}
+	}
 	private boolean validate(Entry entry, FacesContext context) {
 		
 		

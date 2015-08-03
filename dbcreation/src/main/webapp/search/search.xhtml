@@ -34,6 +34,7 @@
 		</p:panel>
 		</h:form>
 		<h:form id="frmSearchData">
+		<p:growl id="growlEditEntry" showDetail="true" />
 		<p:panel style="width: 100%; margin: 0 auto; border:none"
 			id="pnlSearchTable" >
 			
@@ -47,82 +48,254 @@
 			<br/>
 			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
 				selectionMode="single" rowKey="#{entry.id}" rows="50" 
-				paginator="true" 
+				paginator="true"  editable="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15">
 				
-
+				<p:ajax event="rowEdit" listener="#{entryBean.onRowEdit}" update="tabMain:frmSearchData" onstart="PF('dlgShow').show()" 
+					oncomplete="PF('dlgShow').hide()"/>
+					
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
 				<p:column headerText="Organization" width="200" sortBy="#{entry.orgname}" styleClass="column">
-						<h:outputText value="#{entry.orgname}"  />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.orgname}"  />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.orgname}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+					
 				</p:column>
 				<p:column headerText="Contact Name" width="200" sortBy="#{entry.contactName}" styleClass="column">
-						<h:outputText value="#{entry.contactName}"  />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.contactName}"  />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.contactName}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+					
 				</p:column>
 				<p:column headerText="Email" width="200" sortBy="#{entry.email}" styleClass="column">
-						<h:outputText value="#{entry.email}"  />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.email}"  />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.email}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+						
 				</p:column>
 				<p:column headerText="Contact Number" width="200" sortBy="#{entry.contactNum}" styleClass="column">
-						<h:outputText value="#{entry.contactNum}" styleClass="column"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.contactNum}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.contactNum}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+						
 				</p:column>
 				<p:column headerText="Location" width="200" sortBy="#{entry.location}" styleClass="column">
-						<h:outputText value="#{entry.location}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.location}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.location}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Start Date" width="200" sortBy="#{entry.startDate}" styleClass="column">
-					<h:outputText value="#{entry.startDate}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.startDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar  readonlyInput="true" 
+								pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entry.startDate}"/>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="End date" width="200" sortBy="#{entry.endDate}" styleClass="column">
-					<h:outputText value="#{entry.endDate}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.endDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar  readonlyInput="true" 
+								pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entry.endDate}"/>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Shutdown date" width="200" sortBy="#{entry.shutdownDate}" styleClass="column">
-					<h:outputText value="#{entry.shutdownDate}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.shutdownDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar  readonlyInput="true" 
+								pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entry.shutdownDate}"/>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Private IP" width="200" sortBy="#{entry.privateIp}" styleClass="column">
-						<h:outputText value="#{entry.privateIp}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.privateIp}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.privateIp}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Public IP" width="200" sortBy="#{entry.publicIp}" styleClass="column">
-						<h:outputText value="#{entry.publicIp}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.publicIp}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.publicIp}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Service" width="200" sortBy="#{entry.service}" styleClass="column">
-						<h:outputText value="#{entry.service}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.service}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{entry.service}">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItem itemLabel="ECS" itemValue="ECS" />
+								<f:selectItem itemLabel="IV" itemValue="IV" />
+								<f:selectItem itemLabel="OPDC" itemValue="OPDC" />
+								<f:selectItem itemLabel="HDDC" itemValue="HDDC" />
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Service Type" width="200" sortBy="#{entry.serviceType}" styleClass="column">
-						<h:outputText value="#{entry.serviceType}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.serviceType}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneRadio 	value="#{entry.serviceType}">
+								<f:selectItem itemLabel="POC" itemValue="POC" />
+								<f:selectItem itemLabel="PAID" itemValue="PAID" />
+							</p:selectOneRadio>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="PO Number" width="200" sortBy="#{entry.poNum}" styleClass="column">
-						<h:outputText value="#{entry.poNum}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.poNum}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.poNum}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="PO Date" width="200" sortBy="#{entry.poDate}" styleClass="column">
-					<h:outputText value="#{entry.poDate}" >
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.poDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.poDate}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Account Manager" width="200"  sortBy="#{entry.managerName}" styleClass="column">
-						<h:outputText value="#{entry.managerName}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.managerName}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{entry.managerName}">
+								<f:selectItem itemLabel="" itemValue="" />
+								<f:selectItems var="manager" itemLabel="#{manager.name}"
+									itemValue="#{manager.id}" value="#{entryBean.listManagers}" />
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="VM name" width="200"  sortBy="#{entry.vmName}" styleClass="column"> 
-						<h:outputText value="#{entry.vmName}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.vmName}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.vmName}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="V Ram" width="200"  sortBy="#{entry.vRam}" styleClass="column">
-						<h:outputText value="#{entry.vRam}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.vRam}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.vRam}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="V CPU" width="200"  sortBy="#{entry.vCpu}" styleClass="column">
-						<h:outputText value="#{entry.vCpu}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.vCpu}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.vCpu}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="V Hdd" width="200" styleClass="column" sortBy="#{entry.vHdd}">
-						<h:outputText value="#{entry.vHdd}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.vHdd}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.vHdd}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Os version" width="200" styleClass="column" sortBy="#{entry.osVersion}">
-						<h:outputText value="#{entry.osVersion}" />
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.osVersion}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.osVersion}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				<p:column headerText="Remarks" width="200" styleClass="column" sortBy="#{entry.remarks}">
-						<h:outputText value="#{entry.remarks}"/>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{entry.remarks}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText  value="#{entry.remarks}"  />
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				
 			</p:dataTable>

@@ -7,5 +7,7 @@ import org.vinod.jsf.bean.vo.Search;
 
 public interface EntryService {
 	public void save(Entry entry) throws Exception ;
+	public void edit(Entry entry) throws Exception ;
 	public List<Entry> searchEntry(Search search) throws Exception;
+	
 }

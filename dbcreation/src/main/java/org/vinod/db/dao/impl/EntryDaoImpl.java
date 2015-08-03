@@ -16,7 +16,7 @@ import org.vinod.db.dao.dto.EntryDTO;
 import org.vinod.db.row.EntryRowMapper;
 
 @Repository
-public class EntryDaoImpl implements EntryDao{
+public class EntryDaoImpl implements EntryDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -60,7 +60,45 @@ public class EntryDaoImpl implements EntryDao{
 			throw e;
 		} 
 	}
-
+	public void updateEntry(final EntryDTO entry) throws Exception {
+		final String sql ="UPDATE tbl_entry	SET "
+				+ "orgname = ?, contactname = ?, email = ?, contactnum = ?, location = ?, startdate = ?, enddate = ?, shutdowndate = ?,"
+				+ "privateip = ?, publicip = ?, service = ?, servicetype = ?, ponum = ?, podate = ?, accmanager = ?, vmname = ?, vmram = ?, vcpu = ?,"
+				+ "vhdd = ?, osversion = ? ,remarks = ? where id= ?";
+		try {
+			jdbcTemplate.update(new PreparedStatementCreator() {
+				public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+					PreparedStatement ps = conn.prepareStatement(sql);
+					ps.setString(1, entry.getOrgname());
+					ps.setString(2, entry.getContactName());
+					ps.setString(3, entry.getEmail());
+					ps.setString(4, entry.getContactNum());
+					ps.setString(5, entry.getLocation());
+					ps.setDate(6, entry.getStartDate());
+					ps.setDate(7, entry.getEndDate());
+					ps.setDate(8, entry.getShutdownDate());
+					ps.setString(9, entry.getPrivateIp());
+					ps.setString(10, entry.getPublicIp());
+					ps.setString(11, entry.getService());
+					ps.setString(12, entry.getServiceType());
+					ps.setString(13, entry.getPoNum());
+					ps.setDate(14, entry.getPoDate());
+					ps.setInt(15, entry.getAccManager());
+					ps.setString(16, entry.getVmName());
+					ps.setString(17, entry.getvRam());
+					ps.setString(18, entry.getvCpu());
+					ps.setString(19, entry.getvHdd());
+					ps.setString(20, entry.getOsVersion());
+					ps.setString(21, entry.getRemarks());
+					ps.setInt(22, entry.getId());
+			    	return ps;
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} 
+	}
 	public List<EntryDTO> searchEntry(String searchBy, String searchValue) throws Exception {
 		List<EntryDTO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
