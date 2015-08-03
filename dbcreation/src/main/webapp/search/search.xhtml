@@ -10,6 +10,74 @@
  width:100%;
 }
 </style>
+	<script>
+		function showPO(value) {
+			
+			if (value == "PAID") {
+				PF('txtPoNum').jq.removeAttr("disabled");
+				PF('txtPoNum').jq
+						.attr(
+								"class",
+								"ui-inputfield ui-inputtext ui-widget "
+										+ "ui-state-default ui-corner-all inputTextWidth");
+				$("[id='tabMain:frmData:calPoDate_input']").removeAttr(
+						"disabled");
+				$("[id='tabMain:frmData:calPoDate_input']").attr(
+						"aria-disabled", "false");
+				$("[id='tabMain:frmData:calPoDate_input']")
+						.attr("class",
+								"ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker");
+				$("[id='tabMain:frmData:calPoDate']").attr("required",	"true");
+				$("[id='tabMain:frmData:calPoDate']").attr("requiredMessage",	"Please enter PO date");
+			} else {
+				// Disable selecting POC when user selected service either OPDC or HDDC
+				var service = PF('serviceType').getSelectedValue();
+				if(service == 'OPDC' || service == 'HDDC') {
+					PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+					return;
+				}
+				
+				PF('txtPoNum').jq.attr("disabled", "true");
+				PF('txtPoNum').jq
+						.attr(
+								"class",
+								"ui-inputfield ui-inputtext ui-widget "
+										+ "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
+				PF('txtPoNum').jq.val("");
+
+				$("[id='tabMain:frmData:calPoDate_input']").attr("disabled",
+						"true");
+				$("[id='tabMain:frmData:calPoDate_input']")
+						.attr("class",
+								"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+				$("[id='tabMain:frmData:calPoDate_input']").val("");
+				$("[id='tabMain:frmData:calPoDate']").removeAttr("required");
+				$("[id='tabMain:frmData:calPoDate']").removeAttr("requiredMessage");
+			}
+
+		}
+		function diablePO() {
+			$("[id='tabMain:frmData:calPoDate_input']").attr(
+					"disabled", "true");
+			$("[id='tabMain:frmData:calPoDate_input']")
+					.attr("class",
+							"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
+		}
+		function selectServiceType(value) {
+			if(value == 'OPDC' || value == 'HDDC') {
+				PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+			} else {
+				PF('payType').jq.find('input:radio[value="POC"]').parent().next().trigger('click.selectOneRadio');
+			}
+			
+		}
+		$(document)
+				.ready(
+						function() {
+							
+							diablePO();
+		});
+	</script>
 	<h:form id="frmSearch">
 		<p:growl id="growlSearch" showDetail="true" />
 		<p:panel style="width: 50%; margin: 0 auto; border:none"
@@ -47,14 +115,14 @@
 			
 			<br/>
 			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
-				selectionMode="single" rowKey="#{entry.id}" rows="50" 
+				rowKey="#{entry.id}" rows="50" 
 				paginator="true"  editable="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15">
 				
-				<p:ajax event="rowEdit" listener="#{entryBean.onRowEdit}" update="tabMain:frmSearchData" onstart="PF('dlgShow').show()" 
-					oncomplete="PF('dlgShow').hide()"/>
+				<p:ajax event="rowEdit" listener="#{entryBean.onRowEdit}"  onstart="PF('dlgShow').show()" 
+					oncomplete="PF('dlgShow').hide()" update="growlEditEntry"/>
 					
 				<p:column style="width:32px">
 					<p:rowEditor />
@@ -178,7 +246,7 @@
 							<h:outputText value="#{entry.service}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{entry.service}">
+							<p:selectOneMenu value="#{entry.service}" style="width:100%" >
 								<f:selectItem itemLabel="" itemValue="" />
 								<f:selectItem itemLabel="ECS" itemValue="ECS" />
 								<f:selectItem itemLabel="IV" itemValue="IV" />
@@ -207,7 +275,7 @@
 							<h:outputText value="#{entry.poNum}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.poNum}"  />
+							<p:inputText  value="#{entry.poNum}"  style="width:100%" />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -219,7 +287,8 @@
 							</h:outputText>
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.poDate}"  />
+							<p:calendar  readonlyInput="true" widgetVar="poInput" style="width:100%" 
+								pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entry.poDate}"/>
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -229,7 +298,7 @@
 							<h:outputText value="#{entry.managerName}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{entry.managerName}">
+							<p:selectOneMenu value="#{entry.accManager}" style="width:100%" >
 								<f:selectItem itemLabel="" itemValue="" />
 								<f:selectItems var="manager" itemLabel="#{manager.name}"
 									itemValue="#{manager.id}" value="#{entryBean.listManagers}" />
@@ -243,7 +312,7 @@
 							<h:outputText value="#{entry.vmName}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.vmName}"  />
+							<p:inputText  value="#{entry.vmName}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -253,7 +322,7 @@
 							<h:outputText value="#{entry.vRam}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.vRam}"  />
+							<p:inputText  value="#{entry.vRam}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -263,7 +332,7 @@
 							<h:outputText value="#{entry.vCpu}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.vCpu}"  />
+							<p:inputText  value="#{entry.vCpu}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -273,7 +342,7 @@
 							<h:outputText value="#{entry.vHdd}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.vHdd}"  />
+							<p:inputText  value="#{entry.vHdd}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -283,7 +352,7 @@
 							<h:outputText value="#{entry.osVersion}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.osVersion}"  />
+							<p:inputText  value="#{entry.osVersion}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -293,11 +362,13 @@
 							<h:outputText value="#{entry.remarks}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.remarks}"  />
+							<p:inputText  value="#{entry.remarks}" style="width:100%"  />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
 			</p:dataTable>
 		</p:panel>
 

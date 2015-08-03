@@ -5,9 +5,9 @@
 	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
 	<ui:define name="content">
 		
-	<p:tabView id="tabMain" dynamic="true"
+	<p:tabView id="tabMain" dynamic="true" onTabChange=""
 			style="width:99%; margin:0 auto;min-height: 98%;height: auto;"  >
-			 
+			 <p:ajax event="tabChange" listener="#{entryBean.onTabChange}" update="tabMain:frmSearchData:pnlSearchTable"/>
 			 <p:tab title="Data" id="tabData">
 				<ui:include src="entry/entry.xhtml" />
 			 </p:tab>

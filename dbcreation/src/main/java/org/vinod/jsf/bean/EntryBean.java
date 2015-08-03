@@ -3,6 +3,7 @@ package org.vinod.jsf.bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -121,7 +122,16 @@ public class EntryBean {
 		Entry editedEntry = (Entry) event.getObject();
 		
 		try {
+			boolean isDataValid = validate(entry, context);
+			if(!isDataValid) {
+				return;
+			}
 			entryService.edit(editedEntry);
+			Optional<Manager> m = listManagers.stream().filter(user -> user.getId() == editedEntry.getAccManager()).findFirst();
+			if(m.isPresent()) {
+				editedEntry.setManagerName(m.get().getName());
+			}
+			
 		} catch (Exception e) {
 			log.error("Exception while editing Entry" + e.toString());
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Exception occured editing Entry " + editedEntry.getId(), 

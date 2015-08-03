@@ -124,7 +124,10 @@
 			<p:calendar size="37" id="calPoDate" readonlyInput="true" 
 				pattern="dd/MM/yyyy" tabindex="14" value="#{entryBean.entry.poDate}"/>
 			<h:outputText value="Contact No" styleClass="inputTextWidth"  />
-			<p:inputText styleClass="inputTextWidth" tabindex="4" value="#{entryBean.entry.contactNum}"/>
+			<p:inputMask mask="(999)999-?9999999999"  slotChar=" " maxlength="15" styleClass="inputTextWidth" tabindex="4" 
+				value="#{entryBean.entry.contactNum}"/> 
+				
+			
 			
 			
 			<h:outputText value="Account Manager" styleClass="inputTextWidth" />
@@ -189,7 +192,7 @@
 			style="width: 10%; margin:0 auto; margin-top: 20px">
 			<p:commandButton value="Submit" onstart="PF('dlgShow').show()" oncomplete="PF('dlgShow').hide(),diablePO()"  
 				action="#{entryBean.save}" update="tabMain:frmData:pnlData"/>
-			<p:commandButton value="Reset" action="#{entryBean.reset}" update="tabMain:frmData:pnlData" oncomplete="diablePO()"/>
+			<p:commandButton value="Reset" process="@this" action="#{entryBean.reset}" update="tabMain:frmData:pnlData" oncomplete="diablePO()"/>
 
 		</p:panelGrid>
 	</div>
