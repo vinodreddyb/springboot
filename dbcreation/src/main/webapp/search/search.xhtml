@@ -11,71 +11,80 @@
 }
 </style>
 	<script>
-		function showPO(value) {
+		function showPOSearch(id, value) {
+			var parts = id.split(":");
+			var rowKey = parts[parts.length - 3];
 			
+			var txtPoNumId = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":txtPoNum']";
+			var calPoDateInput = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":calPoDate_input']";
+			var calPoDate = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":calPoDate']";
+			var serviceId = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":service_input']"
+			var serviceTypeId = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":serviceType']"
 			if (value == "PAID") {
-				PF('txtPoNum').jq.removeAttr("disabled");
-				PF('txtPoNum').jq
+				$(txtPoNumId).removeAttr("disabled");
+				$(txtPoNumId)
 						.attr(
 								"class",
 								"ui-inputfield ui-inputtext ui-widget "
 										+ "ui-state-default ui-corner-all inputTextWidth");
-				$("[id='tabMain:frmData:calPoDate_input']").removeAttr(
+			
+				$(calPoDateInput).removeAttr(
 						"disabled");
-				$("[id='tabMain:frmData:calPoDate_input']").attr(
+				$(calPoDateInput).attr(
 						"aria-disabled", "false");
-				$("[id='tabMain:frmData:calPoDate_input']")
+				$(calPoDateInput)
 						.attr("class",
 								"ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker");
-				$("[id='tabMain:frmData:calPoDate']").attr("required",	"true");
-				$("[id='tabMain:frmData:calPoDate']").attr("requiredMessage",	"Please enter PO date");
+				
+				$(calPoDate).css("visibility","show");
+				$(calPoDate).attr("required",	"true");
+				$(calPoDate).attr("requiredMessage",	"Please enter PO date");
 			} else {
 				// Disable selecting POC when user selected service either OPDC or HDDC
-				var service = PF('serviceType').getSelectedValue();
+				var service = $(serviceId).val();
 				if(service == 'OPDC' || service == 'HDDC') {
-					PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+					$(serviceTypeId).find('input:radio[value="PAID"]')
+						.parent().next().trigger('click.selectOneRadio');
 					return;
 				}
 				
-				PF('txtPoNum').jq.attr("disabled", "true");
-				PF('txtPoNum').jq
+				$(txtPoNumId).attr("disabled", "true");
+				$(txtPoNumId)
 						.attr(
 								"class",
 								"ui-inputfield ui-inputtext ui-widget "
 										+ "ui-state-default ui-corner-all ui-state-disabled inputTextWidth");
-				PF('txtPoNum').jq.val("");
+				$(txtPoNumId).val("");
 
-				$("[id='tabMain:frmData:calPoDate_input']").attr("disabled",
+				$(calPoDateInput).attr("disabled",
 						"true");
-				$("[id='tabMain:frmData:calPoDate_input']")
+				$(calPoDateInput)
 						.attr("class",
 								"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
-				$("[id='tabMain:frmData:calPoDate_input']").val("");
-				$("[id='tabMain:frmData:calPoDate']").removeAttr("required");
-				$("[id='tabMain:frmData:calPoDate']").removeAttr("requiredMessage");
+				$(calPoDateInput).val("");
+				$(calPoDate).css("visibility","hidden");
+				$(calPoDate).removeAttr("required");
+				$(calPoDate).removeAttr("requiredMessage");
 			}
 
 		}
-		function diablePO() {
-			$("[id='tabMain:frmData:calPoDate_input']").attr(
-					"disabled", "true");
-			$("[id='tabMain:frmData:calPoDate_input']")
-					.attr("class",
-							"ui-inputfield ui-widget ui-state-default ui-corner-all ui-state-disabled");
-		}
-		function selectServiceType(value) {
-			if(value == 'OPDC' || value == 'HDDC') {
-				PF('payType').jq.find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
+		
+		function selectServiceTypeSearch(id, value) {
+			var parts = id.split(":");
+			var rowKey = parts[parts.length - 2];
+			var serviceTypeId = "[id='tabMain:frmSearchData:tblSearch:"+rowKey+":serviceType']"
+		    if(value == 'OPDC' || value == 'HDDC') {
+				$(serviceTypeId).find('input:radio[value="PAID"]').parent().next().trigger('click.selectOneRadio');
 			} else {
-				PF('payType').jq.find('input:radio[value="POC"]').parent().next().trigger('click.selectOneRadio');
-			}
+				$(serviceTypeId).find('input:radio[value="POC"]').parent().next().trigger('click.selectOneRadio');
+			} 
 			
 		}
 		$(document)
 				.ready(
 						function() {
 							
-							diablePO();
+							
 		});
 	</script>
 	<h:form id="frmSearch">
@@ -115,15 +124,14 @@
 			
 			<br/>
 			<p:dataTable id="tblSearch" var="entry" value="#{entryBean.listEntries}"
-				rowKey="#{entry.id}" rows="50" 
-				paginator="true"  editable="true"
+				rowKey="#{entry.id}" rowIndexVar="rowIndex"  rows="50" 
+				paginator="true"  editable="true" 
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15">
+				<p:ajax  event="rowEdit"  listener="#{entryBean.onRowEdit}"  onstart="diablePO(#{rowIndex})" 
+					oncomplete="PF('dlgShow').hide()" update="@form:growlEditEntry"/>
 				
-				<p:ajax event="rowEdit" listener="#{entryBean.onRowEdit}"  onstart="PF('dlgShow').show()" 
-					oncomplete="PF('dlgShow').hide()" update="growlEditEntry"/>
-					
 				<p:column style="width:32px">
 					<p:rowEditor />
 				</p:column>
@@ -246,8 +254,9 @@
 							<h:outputText value="#{entry.service}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{entry.service}" style="width:100%" >
-								<f:selectItem itemLabel="" itemValue="" />
+							<p:selectOneMenu id="service" value="#{entry.service}" 
+								onchange="selectServiceTypeSearch(this.id, this.value)" style="width:100%"   >
+								<f:selectItem itemLabel="" itemValue=""/>
 								<f:selectItem itemLabel="ECS" itemValue="ECS" />
 								<f:selectItem itemLabel="IV" itemValue="IV" />
 								<f:selectItem itemLabel="OPDC" itemValue="OPDC" />
@@ -262,7 +271,7 @@
 							<h:outputText value="#{entry.serviceType}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:selectOneRadio 	value="#{entry.serviceType}">
+							<p:selectOneRadio id="serviceType" onchange="showPOSearch(this.id,this.value)" 	value="#{entry.serviceType}">
 								<f:selectItem itemLabel="POC" itemValue="POC" />
 								<f:selectItem itemLabel="PAID" itemValue="PAID" />
 							</p:selectOneRadio>
@@ -275,11 +284,11 @@
 							<h:outputText value="#{entry.poNum}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText  value="#{entry.poNum}"  style="width:100%" />
+							<p:inputText  value="#{entry.poNum}" id="txtPoNum" style="width:100%;visibility:#{entry.serviceType eq 'POC'?'hidden':'show'}"    />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="PO Date" width="200" sortBy="#{entry.poDate}" styleClass="column">
+				<p:column id="colPoDate"  headerText="PO Date" width="200" sortBy="#{entry.poDate}" styleClass="column">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{entry.poDate}">
@@ -287,7 +296,7 @@
 							</h:outputText>
 						</f:facet>
 						<f:facet name="input">
-							<p:calendar  readonlyInput="true" widgetVar="poInput" style="width:100%" 
+						 	<p:calendar readonlyInput="true" id="calPoDate"    widgetVar="poInput" style="width:100%;visibility:#{entry.serviceType eq 'POC'?'hidden':'show'}" 
 								pattern="dd/MM/yyyy" size="37" tabindex="6" value="#{entry.poDate}"/>
 						</f:facet>
 					</p:cellEditor>
@@ -298,7 +307,7 @@
 							<h:outputText value="#{entry.managerName}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{entry.accManager}" style="width:100%" >
+							<p:selectOneMenu value="#{entry.accManager}" style="width:100%" id="manager">
 								<f:selectItem itemLabel="" itemValue="" />
 								<f:selectItems var="manager" itemLabel="#{manager.name}"
 									itemValue="#{manager.id}" value="#{entryBean.listManagers}" />

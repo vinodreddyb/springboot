@@ -122,7 +122,7 @@ public class EntryBean {
 		Entry editedEntry = (Entry) event.getObject();
 		
 		try {
-			boolean isDataValid = validate(entry, context);
+			boolean isDataValid = validate(editedEntry, context);
 			if(!isDataValid) {
 				return;
 			}
@@ -140,10 +140,16 @@ public class EntryBean {
 	}
 	private boolean validate(Entry entry, FacesContext context) {
 		
+		if("".equals(entry.getService())) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Validation Error", 
+					"Please select Service"));
+			return false;
+		}
 		
 		Date sd = entry.getStartDate();
 		Date ed = entry.getEndDate();
 		Date shutDate = entry.getShutdownDate();
+		
 		if(!sd.before(ed)) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Validation Error", 
 					"End date should be after start date"));
